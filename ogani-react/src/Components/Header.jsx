@@ -1,6 +1,24 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from 'axios'
 
 export default class Header extends Component {
+
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       headerItems:[]
+    }
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:3000/headers').then((response) => {
+      console.log(response.data);
+      this.setState({headerItems:response.data})
+    })
+  }
+  
   render() {
     return (
       <div>
@@ -40,7 +58,7 @@ export default class Header extends Component {
                       <span className="arrow_carrot-down"></span>
                       <ul>
                         <li>
-                          <a href="#">Spanis</a>
+                          <a href="#">Spanish</a>
                         </li>
                         <li>
                           <a href="#">English</a>
@@ -69,35 +87,15 @@ export default class Header extends Component {
               <div className="col-lg-6">
                 <nav className="header__menu">
                   <ul>
-                    <li className="active">
-                      <a href="./index.html">Home</a>
-                    </li>
-                    <li>
-                      <a href="./shop-grid.html">Shop</a>
-                    </li>
-                    <li>
-                      <a href="#">Pages</a>
-                      <ul className="header__menu__dropdown">
-                        <li>
-                          <a href="./shop-details.html">Shop Details</a>
-                        </li>
-                        <li>
-                          <a href="./shoping-cart.html">Shoping Cart</a>
-                        </li>
-                        <li>
-                          <a href="./checkout.html">Check Out</a>
-                        </li>
-                        <li>
-                          <a href="./blog-details.html">Blog Details</a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a href="./blog.html">Blog</a>
-                    </li>
-                    <li>
-                      <a href="./contact.html">Contact</a>
-                    </li>
+                    {this.state.headerItems.map((item) => {
+                      return <li className="active">
+                        <a href="./index.html">
+                          <Link to={`/${item}`}>{item}</Link>
+                        </a>
+                      </li>
+                    })}
+                    
+                    
                   </ul>
                 </nav>
               </div>

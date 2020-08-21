@@ -1,6 +1,23 @@
 import React, { Component } from "react";
+import axios from "axios";
+
 
 export default class Hero extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      departmentItems: []
+    }
+  }
+    componentDidMount(){
+      axios.get("http://localhost:3000/departments").then((response) => {
+        console.log(response.data);
+        this.setState({departmentItems:response.data})
+      })
+    }
+  
+  
   render() {
     return (
       <div>
